@@ -1,0 +1,12 @@
+# Compilação do Maven
+target/
+*.class
+
+# Configurações do VS Code e IDEs
+.vscode/
+.settings/
+.classpath
+.project
+
+# Logs
+*.log
