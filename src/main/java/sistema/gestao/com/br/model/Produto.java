@@ -12,8 +12,8 @@ public class Produto {
         this.id = id;
         this.nome = nome;
         this.categoria = categoria;
-        this.valor = valor;
-        this.quantidade = quantidade;
+        setValor(valor); // usando a validação do setValor
+        setQuantidade(quantidade); // usando a validação do setQuantidade
     }
 
     public Produto(int id, String nome, String categoria, double valor) {
@@ -49,7 +49,11 @@ public class Produto {
     }
 
     public void setValor(double valor) {
-        this.valor = valor;
+        if (valor < 0) {
+            System.out.println("Error: The product value cannot be negative!");
+        } else {
+            this.valor = valor;
+        }
     }
 
     public int getQuantidade() {
@@ -57,16 +61,38 @@ public class Produto {
     }
 
     public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+        if (quantidade < 0) {
+            System.out.println("Error: The quantity value cannot be negative!");
+        } else {
+            this.quantidade = quantidade;
+        }
+    }
+
+    public void adicionarEstoque(int qtd) {
+        if (qtd <= 0) {
+            System.out.println("Error: Enter a valid quantity to add!: ");
+        } else {
+            this.quantidade += qtd; // Soma ao estoque atual
+        }
+    }
+
+    public void removerEstoque(int qtd) {
+        if (qtd <= 0) {
+            System.out.println("Error: Enter a valid quantity to remove!: ");
+        } else if (qtd > this.quantidade) {
+            System.out.println("Error: Insufficient stock for this operation! ");
+        } else {
+            this.quantidade -= qtd; // Subtrai do estoque atual
+        }
     }
 
     @Override
     public String toString() {
         return "Produto [ID: " + id
-        + " | Nome: " + nome
-        + " | Categoria: " + categoria
-        + " | Preço: " + valor
-        + " | Quantidade: " + quantidade + "]";
+                + " | Nome: " + nome
+                + " | Categoria: " + categoria
+                + " | Preço: " + valor
+                + " | Quantidade: " + quantidade + "]";
     }
-  
+
 }

@@ -22,10 +22,19 @@ public class App {
         Scanner input = new Scanner(System.in);
 
         Produto produto1 = new Produto(123, "Computador", "Informática", 6000.00, 25);
-        Produto produto2 = new Produto(456, "Fone de ouvido", "Acessórios", 120.00);
+        Produto produto2 = new Produto(456, "Fone de ouvido", "Acessórios", 120.00, -10);
+
+        Produto produto3 = new Produto(789, "Controle", "Acessórios", -134.00, -50);
+
+        //produto1.setValor(-50.0);
+        //produto2.setQuantidade(-10);
+
+        produto1.adicionarEstoque(5);
+        produto1.removerEstoque(10);
 
         System.out.println("Produto: " + produto1);
         System.out.println("Produto: " + produto2);
+        System.out.println("Produto: " + produto3);
 
         input.close();
     }
