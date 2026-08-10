@@ -8,13 +8,12 @@ public class Produto {
     private double valor;
     private int quantidade;
 
-
     public Produto(int id, String nome, String categoria, double valor, int quantidade) {
         this.id = id;
         this.nome = nome;
         this.categoria = categoria;
-        setValor(valor); // usando a validação do setValor
-        setQuantidade(quantidade); // usando a validação do setQuantidade
+        setValor(valor);
+        setQuantidade(quantidade);
     }
 
     public Produto(int id, String nome, String categoria, double valor) {
@@ -51,7 +50,7 @@ public class Produto {
 
     public void setValor(double valor) {
         if (valor < 0) {
-            System.out.println("Error: The product value cannot be negative!");
+            System.out.println("Erro: O valor do produto não pode ser negativo!");
         } else {
             this.valor = valor;
         }
@@ -63,7 +62,7 @@ public class Produto {
 
     public void setQuantidade(int quantidade) {
         if (quantidade < 0) {
-            System.out.println("Error: The quantity value cannot be negative!");
+            System.out.println("Erro: A quantidade não pode ser negativa!");
         } else {
             this.quantidade = quantidade;
         }
@@ -71,19 +70,19 @@ public class Produto {
 
     public void adicionarEstoque(int qtd) {
         if (qtd <= 0) {
-            System.out.println("Error: Enter a valid quantity to add!: ");
+            System.out.println("Erro: Informe uma quantidade válida para adicionar!");
         } else {
-            this.quantidade += qtd; // Soma ao estoque atual
+            setQuantidade(this.quantidade + qtd);
         }
     }
 
     public void removerEstoque(int qtd) {
         if (qtd <= 0) {
-            System.out.println("Error: Enter a valid quantity to remove!: ");
-        } else if (qtd > this.quantidade){
-            System.out.println("Error: Insufficient stock for this operation! ");
+            System.out.println("Erro: Informe uma quantidade válida para remover!");
+        } else if (qtd > this.quantidade) {
+            System.out.println("Erro: Estoque insuficiente para esta operação!");
         } else {
-            this.quantidade -= qtd; // Subtrai do estoque atual
+            setQuantidade(this.quantidade - qtd);
         }
     }
 
@@ -92,8 +91,7 @@ public class Produto {
         return "Produto [ID: " + id
                 + " | Nome: " + nome
                 + " | Categoria: " + categoria
-                + " | Preço: " + valor
+                + " | Preço: R$ " + String.format("%.2f", valor)
                 + " | Quantidade: " + quantidade + "]";
     }
-
 }

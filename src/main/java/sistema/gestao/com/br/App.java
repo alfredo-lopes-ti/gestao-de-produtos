@@ -1,14 +1,12 @@
 package sistema.gestao.com.br;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
 import sistema.gestao.com.br.model.Produto;
 
-/**
- * SISTEMA DE GESTÃO DE ESTOQUE E VENDAS
- *
- */
 public class App {
     public static void main(String[] args) {
         System.out.println("=========================================");
@@ -21,98 +19,81 @@ public class App {
         Locale.setDefault(Locale.US);
         Scanner input = new Scanner(System.in);
 
-        Produto produto1 = new Produto(123, "Computador", "Informática", 6000.00, 25);
-        Produto produto2 = new Produto(456, "Fone de ouvido", "Acessórios", 120.00, -10);
+        List<Produto> produtos = new ArrayList<>();
 
-        Produto produto3 = new Produto(789, "Controle", "Acessórios", -134.00, -50);
-
-        // produto1.setValor(-50.0);
-        // produto2.setQuantidade(-10);
-
-        /*
-         * produto1.adicionarEstoque(5);
-         * produto1.removerEstoque(10);
-         * 
-         * System.out.println("Produto: " + produto1);
-         * System.out.println("Produto: " + produto2);
-         * System.out.println("Produto: " + produto3);
-         */
+        produtos.add(new Produto(123, "Computador", "Informática", 6000.00, 25));
+        produtos.add(new Produto(456, "Fone de ouvido", "Acessórios", 120.00, 10));
+        produtos.add(new Produto(789, "Controle", "Acessórios", 134.00, 50));
 
         int opcao;
-        int id;
 
         do {
-            // 1. Exibe o menu e lê a opção do usuário
-            System.out.println("---MENU---");
-            System.out.println("0. Verificar o estoque: ");
-            System.out.println("1. Adicionar ao estoque: ");
-            System.out.println("2. Remover do estoque: ");
+            System.out.println("\n--- MENU ---");
+            System.out.println("0. Verificar estoque");
+            System.out.println("1. Adicionar ao estoque");
+            System.out.println("2. Remover do estoque");
             System.out.println("3. Sair");
+            System.out.print("Escolha uma opção: ");
 
-            opcao = input.nextInt(); // Lendo o que o usuário digitou
-            //id = input.nextInt(); // parâmetro para decidir sobre qual produto
+            opcao = input.nextInt();
 
             switch (opcao) {
                 case 0:
                     System.out.println("\n--- ESTOQUE ATUAL ---");
-                    System.out.println(produto1);
-                    System.out.println(produto2);
-                    System.out.println(produto3);
-                    break; // interompe para não executar o próximo case
+                    for (Produto p : produtos) {
+                        System.out.println(p);
+                    }
+                    break;
 
                 case 1:
-                    System.out.println("Enter ID of the product ");
-                    id = input.nextInt();
-                    if (id == 123) {
-                        System.out.println("Enter the quantity to be add on the firts product: ");
-                        int qtdAdd = input.nextInt();
-                        produto1.adicionarEstoque(qtdAdd);
-                    } else if (id == 456) {
-                        System.out.println("Enter the quantity to be add on the second product: ");
-                        int qtdAdd = input.nextInt();
-                        produto2.adicionarEstoque(qtdAdd);
-                    } else if (id == 789) {
-                        System.out.println("Enter the quantity to be add on the tird product: ");
-                        int qtdAdd = input.nextInt();
-                        produto3.adicionarEstoque(qtdAdd);
-                    } else {
-                        System.out.println("Invalid number!");
-                    }
+                    System.out.print("Digite o ID do produto: ");
+                    int idAdd = input.nextInt();
 
+                    Produto pAdd = buscarPorId(produtos, idAdd);
+
+                    if (pAdd != null) {
+                        System.out.print("Digite a quantidade para adicionar: ");
+                        pAdd.adicionarEstoque(input.nextInt());
+                    } else {
+                        System.out.println("Produto não encontrado!");
+                    }
                     break;
 
                 case 2:
-                    System.out.println("Enter ID of the product ");
-                    id = input.nextInt();
-                    if (id == 123) {
-                        System.out.println("Enter the quantity to be removed on the firts product: ");
-                        int qtdRem = input.nextInt();
-                        produto1.removerEstoque(qtdRem);
-                    } else if (id == 456) {
-                        System.out.println("Enter the quantity to be removed on the second product: ");
-                        int qtdRem = input.nextInt();
-                        produto2.removerEstoque(qtdRem);
-                    } else if (id == 789) {
-                        System.out.println("Enter the quantity to be removed on the tird product: ");
-                        int qtdRem = input.nextInt();
-                        produto3.removerEstoque(qtdRem);
-                    } else {
-                        System.out.println("Invalid number!");
-                    }
+                    System.out.print("Digite o ID do produto: ");
+                    int idRem = input.nextInt();
 
+                    Produto pRem = buscarPorId(produtos, idRem);
+
+                    if (pRem != null) {
+                        System.out.print("Digite a quantidade para remover: ");
+                        pRem.removerEstoque(input.nextInt());
+                    } else {
+                        System.out.println("Produto não encontrado!");
+                    }
                     break;
 
                 case 3:
-                    System.out.println("Logging out... See you later!");
+                    System.out.println("Encerrando o sistema... Até logo!");
                     break;
 
                 default:
-                    System.out.println("Invalid option! try again!");
+                    System.out.println("Opção inválida! Tente novamente.");
                     break;
             }
 
         } while (opcao != 3);
 
         input.close();
+    }
+
+    // Método auxiliar para buscar por ID na lista
+    public static Produto buscarPorId(List<Produto> lista, int id) {
+        for (Produto p : lista) {
+            if (p.getId() == id) {
+                return p;
+            }
+        }
+        return null;
     }
 }
