@@ -32,7 +32,8 @@ public class App {
             System.out.println("0. Verificar estoque");
             System.out.println("1. Adicionar ao estoque");
             System.out.println("2. Remover do estoque");
-            System.out.println("3. Sair");
+            System.out.println("3. Cadastrar um novo produto:");
+            System.out.println("4. Sair");
             System.out.print("Escolha uma opção: ");
 
             opcao = input.nextInt();
@@ -72,8 +73,28 @@ public class App {
                         System.out.println("Produto não encontrado!");
                     }
                     break;
-
                 case 3:
+                    System.out.println("\n---Novo Produto---");
+                    System.out.println("ID:");
+                    int novoID = input.nextInt();
+                    input.nextLine(); // Limpeza do buffer  
+
+                    System.out.println("Nome:");
+                    String novoNome = input.nextLine();
+
+                    System.out.println("Categoria:");
+                    String novaCat = input.nextLine();
+
+                    System.out.println("Preço R$:");
+                    double novoPreco = input.nextDouble();
+
+                    System.out.println("Quantidade:");
+                    int novaQtd = input.nextInt();
+
+                    Produto novoProduto = new Produto(novoID, novoNome, novaCat, novaQtd);
+                    produtos.add(novoProduto);
+
+                case 4:
                     System.out.println("Encerrando o sistema... Até logo!");
                     break;
 
@@ -82,7 +103,7 @@ public class App {
                     break;
             }
 
-        } while (opcao != 3);
+        } while (opcao != 4);
 
         input.close();
     }
