@@ -8,6 +8,7 @@ public class Produto {
     private double valor;
     private int quantidade;
 
+
     public Produto(int id, String nome, String categoria, double valor, int quantidade) {
         this.id = id;
         this.nome = nome;
@@ -79,7 +80,7 @@ public class Produto {
     public void removerEstoque(int qtd) {
         if (qtd <= 0) {
             System.out.println("Error: Enter a valid quantity to remove!: ");
-        } else if (qtd > this.quantidade) {
+        } else if (qtd > this.quantidade){
             System.out.println("Error: Insufficient stock for this operation! ");
         } else {
             this.quantidade -= qtd; // Subtrai do estoque atual
