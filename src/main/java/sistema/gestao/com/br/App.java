@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 import sistema.gestao.com.br.model.Produto;
 
@@ -37,94 +38,102 @@ public class App {
             System.out.println("5. Sair");
             System.out.print("Escolha uma opção: ");
 
-            opcao = input.nextInt();
+            try {
 
-            switch (opcao) {
-                case 0:
-                    System.out.println("\n--- ESTOQUE ATUAL ---");
-                    for (Produto p : produtos) {
-                        System.out.println(p);
-                    }
-                    break;
+                opcao = input.nextInt();
 
-                case 1:
-                    System.out.print("Digite o ID do produto: ");
-                    int idAdd = input.nextInt();
-
-                    Produto pAdd = buscarPorId(produtos, idAdd);
-
-                    if (pAdd != null) {
-                        System.out.print("Digite a quantidade para adicionar: ");
-                        pAdd.adicionarEstoque(input.nextInt());
-                    } else {
-                        System.out.println("Produto não encontrado!");
-                    }
-                    break;
-
-                case 2:
-                    System.out.print("Digite o ID do produto: ");
-                    int idRem = input.nextInt();
-
-                    Produto pRem = buscarPorId(produtos, idRem);
-
-                    if (pRem != null) {
-                        System.out.print("Digite a quantidade para remover: ");
-                        pRem.removerEstoque(input.nextInt());
-                    } else {
-                        System.out.println("Produto não encontrado!");
-                    }
-                    break;
-                case 3:
-                    System.out.println("\n---Novo Produto---");
-                    System.out.println("ID:");
-                    int novoID = input.nextInt();
-
-                    if (buscarPorId(produtos, novoID) != null) {
-                        System.out.println("Errro: Já existe um produto cadastrado com esse ID!");
+                switch (opcao) {
+                    case 0:
+                        System.out.println("\n--- ESTOQUE ATUAL ---");
+                        for (Produto p : produtos) {
+                            System.out.println(p);
+                        }
                         break;
-                    }
 
-                    input.nextLine(); // Limpeza do buffer
+                    case 1:
+                        System.out.print("Digite o ID do produto: ");
+                        int idAdd = input.nextInt();
 
-                    System.out.println("Nome:");
-                    String novoNome = input.nextLine();
+                        Produto pAdd = buscarPorId(produtos, idAdd);
 
-                    System.out.println("Categoria:");
-                    String novaCat = input.nextLine();
+                        if (pAdd != null) {
+                            System.out.print("Digite a quantidade para adicionar: ");
+                            pAdd.adicionarEstoque(input.nextInt());
+                        } else {
+                            System.out.println("Produto não encontrado!");
+                        }
+                        break;
 
-                    System.out.println("Preço R$:");
-                    double novoPreco = input.nextDouble();
+                    case 2:
+                        System.out.print("Digite o ID do produto: ");
+                        int idRem = input.nextInt();
 
-                    System.out.println("Quantida de:");
-                    int novaQtd = input.nextInt();
+                        Produto pRem = buscarPorId(produtos, idRem);
 
-                    Produto novoProduto = new Produto(novoID, novoNome, novaCat, novaQtd);
-                    produtos.add(novoProduto);
+                        if (pRem != null) {
+                            System.out.print("Digite a quantidade para remover: ");
+                            pRem.removerEstoque(input.nextInt());
+                        } else {
+                            System.out.println("Produto não encontrado!");
+                        }
+                        break;
+                    case 3:
+                        System.out.println("\n---Novo Produto---");
+                        System.out.println("ID:");
+                        int novoID = input.nextInt();
 
-                    System.out.println("Produto cadastrado com sucesso!");
-                    break;
-                    
-                case 4:
-                    System.out.println("\n---Excluir produto---");
-                    System.out.println("Digite o ID do produto para ser removido:");
-                    int idDel = input.nextInt();
+                        if (buscarPorId(produtos, novoID) != null) {
+                            System.out.println("Errro: Já existe um produto cadastrado com esse ID!");
+                            break;
+                        }
 
-                    Produto pDel = buscarPorId(produtos, idDel);
+                        input.nextLine(); // Limpeza do buffer
 
-                    if (pDel != null) { // Remove o objeto da lista
-                        System.out.println("Produto: '" + pDel.getNome() + "' removido com sucesso!");
-                    } else {
-                        System.out.println("Produto não encontrado!");
-                    }
-                    break;
+                        System.out.println("Nome:");
+                        String novoNome = input.nextLine();
 
-                case 5:
-                    System.out.println("Encerrando o sistema... Até logo!");
-                    break;
+                        System.out.println("Categoria:");
+                        String novaCat = input.nextLine();
 
-                default:
-                    System.out.println("Opção inválida! Tente novamente.");
-                    break;
+                        System.out.println("Preço R$:");
+                        double novoPreco = input.nextDouble();
+
+                        System.out.println("Quantida de:");
+                        int novaQtd = input.nextInt();
+
+                        Produto novoProduto = new Produto(novoID, novoNome, novaCat, novaQtd);
+                        produtos.add(novoProduto);
+
+                        System.out.println("Produto cadastrado com sucesso!");
+                        break;
+
+                    case 4:
+                        System.out.println("\n---Excluir produto---");
+                        System.out.println("Digite o ID do produto para ser removido:");
+                        int idDel = input.nextInt();
+
+                        Produto pDel = buscarPorId(produtos, idDel);
+
+                        if (pDel != null) { // Remove o objeto da lista
+                            System.out.println("Produto: '" + pDel.getNome() + "' removido com sucesso!");
+                        } else {
+                            System.out.println("Produto não encontrado!");
+                        }
+                        break;
+
+                    case 5:
+                        System.out.println("Encerrando o sistema... Até logo!");
+                        break;
+
+                    default:
+                        System.out.println("Opção inválida! Tente novamente.");
+                        break;
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println("Erro: Digite apenas números inteiros para as opções");
+                input.nextLine(); // Limpar o buffer
+                opcao = -1; // Para que o laço continue rodando
             }
 
         } while (opcao != 5);
