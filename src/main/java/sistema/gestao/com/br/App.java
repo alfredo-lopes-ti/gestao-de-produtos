@@ -33,7 +33,8 @@ public class App {
             System.out.println("1. Adicionar ao estoque");
             System.out.println("2. Remover do estoque");
             System.out.println("3. Cadastrar um novo produto:");
-            System.out.println("4. Sair");
+            System.out.println("4. Excluir produto:");
+            System.out.println("5. Sair");
             System.out.print("Escolha uma opção: ");
 
             opcao = input.nextInt();
@@ -78,14 +79,12 @@ public class App {
                     System.out.println("ID:");
                     int novoID = input.nextInt();
 
-
-                    if(buscarPorId(produtos, novoID) != null) {
+                    if (buscarPorId(produtos, novoID) != null) {
                         System.out.println("Errro: Já existe um produto cadastrado com esse ID!");
                         break;
                     }
 
-
-                    input.nextLine(); // Limpeza do buffer  
+                    input.nextLine(); // Limpeza do buffer
 
                     System.out.println("Nome:");
                     String novoNome = input.nextLine();
@@ -103,8 +102,23 @@ public class App {
                     produtos.add(novoProduto);
 
                     System.out.println("Produto cadastrado com sucesso!");
-
+                    break;
+                    
                 case 4:
+                    System.out.println("\n---Excluir produto---");
+                    System.out.println("Digite o ID do produto para ser removido:");
+                    int idDel = input.nextInt();
+
+                    Produto pDel = buscarPorId(produtos, idDel);
+
+                    if (pDel != null) { // Remove o objeto da lista
+                        System.out.println("Produto: '" + pDel.getNome() + "' removido com sucesso!");
+                    } else {
+                        System.out.println("Produto não encontrado!");
+                    }
+                    break;
+
+                case 5:
                     System.out.println("Encerrando o sistema... Até logo!");
                     break;
 
@@ -113,7 +127,7 @@ public class App {
                     break;
             }
 
-        } while (opcao != 4);
+        } while (opcao != 5);
 
         input.close();
     }
