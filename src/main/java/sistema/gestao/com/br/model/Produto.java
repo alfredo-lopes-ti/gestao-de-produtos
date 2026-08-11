@@ -56,6 +56,11 @@ public class Produto {
         }
     }
 
+    // Método alias para compatibilidade com a DAO
+    public double getPreco() {
+        return this.valor;
+    }
+
     public int getQuantidade() {
         return quantidade;
     }

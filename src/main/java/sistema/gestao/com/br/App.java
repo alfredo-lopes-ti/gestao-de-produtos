@@ -1,11 +1,15 @@
 package sistema.gestao.com.br;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.sql.Connection;
 
+import sistema.gestao.com.br.database.ProdutoDAO;
+import sistema.gestao.com.br.database.ConexaoBanco;
 import sistema.gestao.com.br.model.Produto;
 
 public class App {
@@ -20,11 +24,17 @@ public class App {
         Locale.setDefault(Locale.US);
         Scanner input = new Scanner(System.in);
 
-        List<Produto> produtos = new ArrayList<>();
+        // Conexão com o Banco de Dados
+        try (Connection conn = ConexaoBanco.getConexao()) {
+            if (conn != null) {
+                System.out.println("Conexão com o PostgreSQL realizada com sucesso!");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao conectar: " + e.getMessage());
+        }
 
-        produtos.add(new Produto(123, "Computador", "Informática", 6000.00, 25));
-        produtos.add(new Produto(456, "Fone de ouvido", "Acessórios", 120.00, 10));
-        produtos.add(new Produto(789, "Controle", "Acessórios", 134.00, 50));
+        ProdutoDAO dao = new ProdutoDAO();
+        List<Produto> produtos = dao.listarTodos();
 
         int opcao;
 
@@ -101,8 +111,12 @@ public class App {
                         System.out.println("Quantida de:");
                         int novaQtd = input.nextInt();
 
-                        Produto novoProduto = new Produto(novoID, novoNome, novaCat, novaQtd);
+                        // Cria o objeto na memória
+                        Produto novoProduto = new Produto(novoID, novoNome, novaCat, novoPreco, novaQtd);
                         produtos.add(novoProduto);
+
+                        // Grava no banco de dados
+                        dao.cadastrar(novoProduto);
 
                         System.out.println("Produto cadastrado com sucesso!");
                         break;
@@ -115,6 +129,7 @@ public class App {
                         Produto pDel = buscarPorId(produtos, idDel);
 
                         if (pDel != null) { // Remove o objeto da lista
+                            produtos.remove(pDel);
                             System.out.println("Produto: '" + pDel.getNome() + "' removido com sucesso!");
                         } else {
                             System.out.println("Produto não encontrado!");
