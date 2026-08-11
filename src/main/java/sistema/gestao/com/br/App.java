@@ -77,6 +77,14 @@ public class App {
                     System.out.println("\n---Novo Produto---");
                     System.out.println("ID:");
                     int novoID = input.nextInt();
+
+
+                    if(buscarPorId(produtos, novoID) != null) {
+                        System.out.println("Errro: Já existe um produto cadastrado com esse ID!");
+                        break;
+                    }
+
+
                     input.nextLine(); // Limpeza do buffer  
 
                     System.out.println("Nome:");
@@ -88,11 +96,13 @@ public class App {
                     System.out.println("Preço R$:");
                     double novoPreco = input.nextDouble();
 
-                    System.out.println("Quantidade:");
+                    System.out.println("Quantida de:");
                     int novaQtd = input.nextInt();
 
                     Produto novoProduto = new Produto(novoID, novoNome, novaCat, novaQtd);
                     produtos.add(novoProduto);
+
+                    System.out.println("Produto cadastrado com sucesso!");
 
                 case 4:
                     System.out.println("Encerrando o sistema... Até logo!");
