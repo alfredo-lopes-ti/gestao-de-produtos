@@ -58,7 +58,47 @@ public class ProdutoDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao listar produtos do banco: " + e.getMessage());
         }
-
         return lista;
+
     }
+
+    public void atualizarEstoque(int id, int novaQuantidade) {
+        String sql = "UPDATE tb_produto SET quantidade = ? WHERE id = ?";
+
+        try (Connection conn = ConexaoBanco.getConexao();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // 1º ponto de interrogação: nova quantidade
+            stmt.setInt(1, novaQuantidade);
+
+            // 2º ponto de interrogação: id do produto no WHERE
+            stmt.setInt(2, id);
+
+            // Executa a alteração no banco
+            stmt.executeUpdate();
+            System.out.println("Estoque atualizado no PostgreSQL!");
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar estoque: " + e.getMessage());
+
+        }
+
+    }
+
+    public void excluir(int id) {
+        String sql = "DELETE FROM tb_produto WHERE id = ?";
+
+        try (Connection conn = ConexaoBanco.getConexao();
+                PreparedStatement stms = conn.prepareStatement(sql)) {
+
+            stms.setInt(1, id);
+
+            stms.executeUpdate();
+            System.out.println("Produto removido do banco de dados!");
+
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir produto no banco:" + e.getMessage());
+        }
+
+    }
+
 }

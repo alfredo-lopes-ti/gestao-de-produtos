@@ -68,7 +68,16 @@ public class App {
 
                         if (pAdd != null) {
                             System.out.print("Digite a quantidade para adicionar: ");
-                            pAdd.adicionarEstoque(input.nextInt());
+
+                            // 1. Lemos e guardamos o número digitado na variável 'qtdAdd'
+                            int qtdAdd = input.nextInt();
+
+                            // 2. Atualizamos o objeto em memória
+                            pAdd.adicionarEstoque(qtdAdd);
+
+                            // 3. Atualizamos no banco de dados com o ID e a nova quantidade total
+                            dao.atualizarEstoque(pAdd.getId(), pAdd.getQuantidade());
+
                         } else {
                             System.out.println("Produto não encontrado!");
                         }
@@ -82,7 +91,15 @@ public class App {
 
                         if (pRem != null) {
                             System.out.print("Digite a quantidade para remover: ");
-                            pRem.removerEstoque(input.nextInt());
+
+                            int qtdRem = input.nextInt();
+
+                            // 1. Atualiza o objeto na memória (subtrai a quantidade)
+                            pRem.removerEstoque(qtdRem);
+
+                            // 2. Envia a nova quantidade total atualizada para o PostgreSQL
+                            dao.atualizarEstoque(pRem.getId(), pRem.getQuantidade());
+
                         } else {
                             System.out.println("Produto não encontrado!");
                         }
@@ -128,8 +145,13 @@ public class App {
 
                         Produto pDel = buscarPorId(produtos, idDel);
 
-                        if (pDel != null) { // Remove o objeto da lista
+                        if (pDel != null) {
+                            // Remove o objeto da lista da memória
                             produtos.remove(pDel);
+
+                            // Remove o produto da tabela
+                            dao.excluir(pDel.getId());
+
                             System.out.println("Produto: '" + pDel.getNome() + "' removido com sucesso!");
                         } else {
                             System.out.println("Produto não encontrado!");
